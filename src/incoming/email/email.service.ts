@@ -10,15 +10,15 @@ export class EmailService {
       let sendToON5 = new EmailON5();
       sendToON5.channel_id = 2
       sendToON5.message_id = data.messageId;
-      sendToON5.message_id_references = '';
-      sendToON5.in_reply_to = '';
+      sendToON5.message_id_references = data.references;
+      sendToON5.in_reply_to = data.inReplyTo;
 
       sendToON5.subject = data.subject;
       sendToON5.from = data.from.value;
       sendToON5.to = data.to.value;
-      sendToON5.cc = '';
-      sendToON5.bcc = '';
-      sendToON5.attachment = '';
+      sendToON5.cc = data.cc.value;
+      sendToON5.bcc = data.bcc.value;
+      sendToON5.attachment = data.attachment;
 
       sendToON5.message_html = data.html;
       sendToON5.message_text = data.text;
