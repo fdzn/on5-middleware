@@ -7,7 +7,7 @@ export class EmailController {
 
   @Post()
   async general(@Body() dataPost: any, @Res() res: Response) {
-    console.log('incoming email to', dataPost.to.value);
+    console.log('incoming email to', dataPost.headers);
     // console.log('incoming email from', dataPost.from.value);
     // console.log('incoming email', dataPost);
     const result = await this.emailService.general(dataPost);

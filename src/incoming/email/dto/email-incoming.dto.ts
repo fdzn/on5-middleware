@@ -6,6 +6,12 @@ export class EmailON5 {
   channel_id: number;
 
   @IsNotEmpty()
+  from: string;
+
+  @IsNotEmpty()
+  from_name: string;
+
+  @IsNotEmpty()
   message_id: string;
 
   @IsOptional()
@@ -15,16 +21,16 @@ export class EmailON5 {
   in_reply_to: string;
 
   @IsNotEmpty()
-  from: string;
+  from_email: string;
 
   @IsNotEmpty()
-  to: string;
+  to_email: string;
 
   @IsOptional()
-  cc: string;
+  cc_email: string;
 
   @IsOptional()
-  bcc: string;
+  bcc_email: string;
 
   @IsOptional()
   subject: string;
