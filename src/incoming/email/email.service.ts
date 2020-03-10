@@ -6,25 +6,26 @@ import { EmailON5 } from './dto/email-incoming.dto';
 export class EmailService {
   async general(data) {
     try {
-      const output = new EmailON5();
 
-      output.message_id = data.messageId;
-      output.message_id_references = '';
-      output.in_reply_to = '';
+      let sendToON5 = new EmailON5();
+      sendToON5.channel_id = 2
+      sendToON5.message_id = data.messageId;
+      sendToON5.message_id_references = '';
+      sendToON5.in_reply_to = '';
 
-      output.subject = data.subject;
-      output.from = '';
-      output.to = '';
-      output.cc = '';
-      output.bcc = '';
-      output.attachment = '';
+      sendToON5.subject = data.subject;
+      sendToON5.from = data.from.value;
+      sendToON5.to = data.to.value;
+      sendToON5.cc = '';
+      sendToON5.bcc = '';
+      sendToON5.attachment = '';
 
-      output.message_html = data.html;
-      output.message_text = data.text;
+      sendToON5.message_html = data.html;
+      sendToON5.message_text = data.text;
 
       return {
         isError: false,
-        data: output,
+        data: "incoming success",
         statusCode: 200,
       };
     } catch (error) {

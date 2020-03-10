@@ -1,6 +1,10 @@
-import { IsNotEmpty, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsInt, IsOptional } from 'class-validator';
 
 export class EmailON5 {
+  @IsInt()
+  @IsNotEmpty()
+  channel_id: number;
+
   @IsNotEmpty()
   message_id: string;
 
@@ -33,4 +37,19 @@ export class EmailON5 {
 
   @IsOptional()
   attachment: string;
+}
+
+export class EmailHeaderON5 {
+  @IsNotEmpty()
+  from: string;
+
+  @IsNotEmpty()
+  from_name: string;
+
+  @IsNotEmpty()
+  message_type: string;
+
+  @IsInt()
+  @IsNotEmpty()
+  channel_id: number;
 }
