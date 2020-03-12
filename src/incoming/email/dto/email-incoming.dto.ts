@@ -1,4 +1,13 @@
-import { IsNotEmpty, IsInt, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsInt, IsOptional } from "class-validator";
+
+export class EmailAttachment {
+  content_id: string;
+  content_type: string;
+  content_disp: string;
+  file_name: string;
+  size: number;
+  path: object;
+}
 
 export class EmailON5 {
   @IsInt()
@@ -42,20 +51,8 @@ export class EmailON5 {
   message_html: string;
 
   @IsOptional()
-  attachment: string;
-}
-
-export class EmailHeaderON5 {
-  @IsNotEmpty()
-  from: string;
+  attachment: EmailAttachment[];
 
   @IsNotEmpty()
-  from_name: string;
-
-  @IsNotEmpty()
-  message_type: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  channel_id: number;
+  account:string;
 }
