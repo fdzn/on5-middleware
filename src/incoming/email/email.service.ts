@@ -22,6 +22,8 @@ export class EmailService {
           };
           return attachmentObj;
         });
+      }else{
+        sendToON5.attachment = [];
       }
       sendToON5.channel_id = 2;
       sendToON5.from = data.from.value[0].address;
@@ -46,7 +48,7 @@ export class EmailService {
       // console.log("data", data);
       console.log("send to on5", post);
       this.http
-        .post("http://on5.infomedia.co.id/v1/incoming/email", post)
+        .post("http://on5.infomedia.co.id/v1/incoming/email", sendToON5)
         .subscribe(res => {
           console.log("http response", res.data);
         });
