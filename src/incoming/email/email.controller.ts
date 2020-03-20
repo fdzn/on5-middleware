@@ -11,8 +11,8 @@ export class EmailController {
     res.status(result.statusCode).send(result);
   }
 
-  @Get()
-  async find() {
-    return 'HALO'
-  }
+  // @Get()
+  // async find() {
+  //   return 'HALO'
+  // }
 }
