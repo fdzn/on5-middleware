@@ -36,6 +36,7 @@ export class WebchatService {
     try {
       let sendToON5 = new WebchatON5();
       sendToON5.channel_id = 3;
+      sendToON5.conv_id = data.message.token;
       switch (data.action) {
         case "createSession":
           let message = "";
@@ -46,7 +47,6 @@ export class WebchatService {
             }
 
           }
-          sendToON5.conv_id = data.message.token;
           sendToON5.from = data.message.email;
           sendToON5.from_name = data.message.username;
           sendToON5.message = message;
@@ -69,12 +69,11 @@ export class WebchatService {
         default:
           break;
       }
-      console.log(sendToON5)
-      // this.http
-      //   .post('http://on5.infomedia.co.id/v1/incoming/webchat', sendToON5)
-      //   .subscribe(res => {
-      //     console.log('http response', res.data);
-      //   });
+      this.http
+        .post('http://on5.infomedia.co.id/v1/incoming/webchat', sendToON5)
+        .subscribe(res => {
+          console.log('http response', res.data);
+        });
       return {
         isError: false,
         data: sendToON5,
