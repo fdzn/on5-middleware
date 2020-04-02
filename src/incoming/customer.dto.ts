@@ -1,0 +1,31 @@
+export class mCustomerON5 {
+    member_id: string;
+    member_type: string;
+    cust_name: string;
+    cust_addr: string;
+    cust_city: string;
+    cust_email: string;
+    cust_hp: string;
+    cust_phone1: string;
+    cust_phone2: string;
+    cust_fb_acc: string;
+    cust_fb_name: string;
+    cust_fb_friends: string;
+    cust_fb_pic: string;
+    cust_tw_acc: string;
+    cust_tw_name: string;
+    cust_tw_followers: string;
+    cust_tw_following: string;
+    cust_tw_pic: string;
+    cust_telegram: string;
+    cust_tele_pic: string;
+    cust_ig_acc: string;
+    cust_ig_name: string;
+    cust_ig_followers: string;
+    cust_ig_following: string;
+    cust_line: string;
+    cust_gender: string;
+    cust_company: string;
+    cust_company_phone: string;
+    cust_profile_pic: string;
+}
