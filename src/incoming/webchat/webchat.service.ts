@@ -1,5 +1,6 @@
 import { Injectable, HttpService } from '@nestjs/common';
 import { ChatbotON5, WebchatON5 } from './dto/webchat-incoming.dto';
+import { mCustomerON5 } from '../customer.dto'
 @Injectable()
 export class WebchatService {
   constructor(private http: HttpService) { }
@@ -35,36 +36,42 @@ export class WebchatService {
     try {
       let sendToON5 = new WebchatON5();
       sendToON5.channel_id = 3;
-      sendToON5.conv_id = data.token;
       switch (data.action) {
         case "createSession":
           let message = "";
           for (const property in data.message) {
-            message += `${property}: ${data.message[property]}
+            if (property != "token") {
+              message += `${property}: ${data.message[property]}
             `;
+            }
+
           }
+          sendToON5.conv_id = data.message.token;
           sendToON5.from = data.message.email;
           sendToON5.from_name = data.message.username;
           sendToON5.message = message;
           sendToON5.message_type = "text";
           sendToON5.tenant_id = "on5";
+          sendToON5.custData = new mCustomerON5()
           sendToON5.custData.cust_email = data.message.email;
           sendToON5.custData.cust_hp = data.message.mobilePhone;
           break;
         case "clientReplyText":
-          sendToON5.from = data.user.email;
-          sendToON5.from_name = data.user.username;
-          sendToON5.message = data.message;
+          sendToON5.from = data.message.user.email;
+          sendToON5.from_name = data.message.user.username;
+          sendToON5.message = data.message.message;
           sendToON5.message_type = "text";
           sendToON5.tenant_id = "on5";
-          sendToON5.custData.cust_email = data.user.email;
-          sendToON5.custData.cust_hp = data.user.mobilePhone;
+          sendToON5.custData = new mCustomerON5()
+          sendToON5.custData.cust_email = data.message.user.email;
+          sendToON5.custData.cust_hp = data.message.user.mobilePhone;
           break;
         default:
           break;
       }
+      console.log(sendToON5)
       // this.http
-      //   .post('http://on5.infomedia.co.id/v1/incoming/webchat', data)
+      //   .post('http://on5.infomedia.co.id/v1/incoming/webchat', sendToON5)
       //   .subscribe(res => {
       //     console.log('http response', res.data);
       //   });
