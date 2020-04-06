@@ -69,15 +69,20 @@ export class WebchatService {
           sendToON5.custData.cust_hp = data.message.user.mobilePhone;
           break;
         case "clientReplyMedia":
+          const separator = "&#x2F;"
+          const mimeTypeObject = data.message.message.mimeType.split(separator)
+          const mimeType = mimeTypeObject[0];
+
           sendToON5.from = data.message.user.email;
           sendToON5.from_name = data.message.user.username;
           sendToON5.message = data.message.message.fileName;
           sendToON5.media = data.message.message.url;
-          sendToON5.message_type = "media";
+          sendToON5.message_type = mimeType;
           sendToON5.tenant_id = "on5";
           sendToON5.custData = new mCustomerON5()
           sendToON5.custData.cust_email = data.message.user.email;
           sendToON5.custData.cust_hp = data.message.user.mobilePhone;
+          console.log(sendToON5);
           break;
         default:
           break;

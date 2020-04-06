@@ -14,7 +14,7 @@ export class WebchatController {
 
   @Post('bot')
   async bot(@Body() dataPost: any, @Res() res: Response) {
-    console.log('incoming webchat BOT', dataPost);
+    // console.log('incoming webchat BOT', dataPost);
     const result = await this.webchatService.bot(dataPost);
     res.status(result.statusCode).send(result);
   }
