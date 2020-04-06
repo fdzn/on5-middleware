@@ -17,19 +17,25 @@ export class WebchatService {
       sendToON5.message_type = data.message_type;
       sendToON5.tenant_id = data.tenant_id;
       if (data.channel_id == 15) {
-        this.http
-          .post(`${host}/v1/incoming/chatbot`, data)
-          .subscribe(res => {
-            console.log('http response', res.data);
-          });
+        const result = await this.http.post(`${host}/v1/incoming/chatbot`, sendToON5).toPromise()
+        return {
+          isError: false,
+          data: result.data,
+          statusCode: 201,
+        };
       }
       return {
         isError: false,
         data: 'incoming success',
         statusCode: 201,
       };
-    } catch (error) {
-      return { isError: true, data: error.message, statusCode: 500 };
+    } catch (e) {
+      console.error(e);
+      if (e.response.status) {
+        return { isError: true, data: e.response.data, statusCode: e.response.status };
+      } else {
+        return { isError: true, data: e.message, statusCode: 500 };
+      }
     }
   }
 
@@ -78,28 +84,30 @@ export class WebchatService {
           sendToON5.message = data.message.message.fileName;
           sendToON5.media = data.message.message.url;
           sendToON5.message_type = mimeType;
+          sendToON5.message_type = mimeType;
           sendToON5.tenant_id = "on5";
           sendToON5.custData = new mCustomerON5()
           sendToON5.custData.cust_email = data.message.user.email;
           sendToON5.custData.cust_hp = data.message.user.mobilePhone;
-          console.log(sendToON5);
           break;
         default:
           break;
       }
-      this.http
-        .post(`${host}/v1/incoming/webchat`, sendToON5)
-        .subscribe(res => {
-          console.log('http response', res.data);
-        });
+
+      const result = await this.http.post(`${host}/v1/incoming/webchat`, sendToON5).toPromise()
+
       return {
         isError: false,
-        data: sendToON5,
+        data: result.data,
         statusCode: 201,
       };
-    } catch (error) {
-      console.error(error)
-      return { isError: true, data: error.message, statusCode: 500 };
+    } catch (e) {
+      console.error(e);
+      if (e.response.status) {
+        return { isError: true, data: e.response.data, statusCode: e.response.status };
+      } else {
+        return { isError: true, data: e.message, statusCode: 500 };
+      }
     }
   }
 }

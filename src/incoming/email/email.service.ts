@@ -4,7 +4,7 @@ import { EmailON5, EmailAttachment } from "./dto/email-incoming.dto";
 
 @Injectable()
 export class EmailService {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
   async general(data) {
     try {
       const host = process.env.ENDPOIN_ON5;
@@ -23,7 +23,7 @@ export class EmailService {
           };
           return attachmentObj;
         });
-      }else{
+      } else {
         sendToON5.attachment = [];
       }
       sendToON5.channel_id = 2;
@@ -45,22 +45,19 @@ export class EmailService {
       sendToON5.message_text = data.text;
 
       sendToON5.account = data.tenant_account[0].address;
-      const post = JSON.stringify(sendToON5);
-      // console.log("data", data);
-      console.log("send to on5", post);
-      this.http
-        .post(`${host}/v1/incoming/email`, sendToON5)
-        .subscribe(res => {
-          console.log("http response", res.data);
-        });
+      const result = await this.http.post(`${host}/v1/incoming/email`, sendToON5).toPromise()
       return {
         isError: false,
-        data: "incoming success",
-        statusCode: 200
+        data: result.data,
+        statusCode: 201,
       };
-    } catch (error) {
-      console.log(error);
-      return { isError: true, data: error.message, statusCode: 500 };
+    } catch (e) {
+      console.error(e);
+      if (e.response.status) {
+        return { isError: true, data: e.response.data, statusCode: e.response.status };
+      } else {
+        return { isError: true, data: e.message, statusCode: 500 };
+      }
     }
   }
 }
