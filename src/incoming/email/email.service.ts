@@ -52,10 +52,13 @@ export class EmailService {
         statusCode: 201,
       };
     } catch (e) {
-      console.error(e);
+      //ERROR HTTP
       if (e.response.status) {
-        return { isError: true, data: e.response.data, statusCode: e.response.status };
+        console.error(e.response.data);
+        return { isError: true, data: e.response.statusText, statusCode: e.response.status };
       } else {
+        //ERROR GENERAL
+        console.error(e);
         return { isError: true, data: e.message, statusCode: 500 };
       }
     }

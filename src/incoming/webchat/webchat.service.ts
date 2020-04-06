@@ -30,10 +30,13 @@ export class WebchatService {
         statusCode: 201,
       };
     } catch (e) {
-      console.error(e);
+      //ERROR HTTP
       if (e.response.status) {
-        return { isError: true, data: e.response.data, statusCode: e.response.status };
+        console.error(e.response.data);
+        return { isError: true, data: e.response.statusText, statusCode: e.response.status };
       } else {
+        //ERROR GENERAL
+        console.error(e);
         return { isError: true, data: e.message, statusCode: 500 };
       }
     }
@@ -45,6 +48,7 @@ export class WebchatService {
       let sendToON5 = new WebchatON5();
       sendToON5.channel_id = 3;
       sendToON5.conv_id = data.message.token;
+      sendToON5.tenant_id = data.tenant;
       switch (data.action) {
         case "createSession":
           let message = "";
@@ -59,7 +63,6 @@ export class WebchatService {
           sendToON5.from_name = data.message.username;
           sendToON5.message = message;
           sendToON5.message_type = "text";
-          sendToON5.tenant_id = "on5";
           sendToON5.custData = new mCustomerON5()
           sendToON5.custData.cust_email = data.message.email;
           sendToON5.custData.cust_hp = data.message.mobilePhone;
@@ -69,7 +72,6 @@ export class WebchatService {
           sendToON5.from_name = data.message.user.username;
           sendToON5.message = data.message.message;
           sendToON5.message_type = "text";
-          sendToON5.tenant_id = "on5";
           sendToON5.custData = new mCustomerON5()
           sendToON5.custData.cust_email = data.message.user.email;
           sendToON5.custData.cust_hp = data.message.user.mobilePhone;
@@ -85,7 +87,6 @@ export class WebchatService {
           sendToON5.media = data.message.message.url;
           sendToON5.message_type = mimeType;
           sendToON5.message_type = mimeType;
-          sendToON5.tenant_id = "on5";
           sendToON5.custData = new mCustomerON5()
           sendToON5.custData.cust_email = data.message.user.email;
           sendToON5.custData.cust_hp = data.message.user.mobilePhone;
@@ -102,10 +103,13 @@ export class WebchatService {
         statusCode: 201,
       };
     } catch (e) {
-      console.error(e);
+      //ERROR HTTP
       if (e.response.status) {
-        return { isError: true, data: e.response.data, statusCode: e.response.status };
+        console.error(e.response.data);
+        return { isError: true, data: e.response.statusText, statusCode: e.response.status };
       } else {
+        //ERROR GENERAL
+        console.error(e);
         return { isError: true, data: e.message, statusCode: 500 };
       }
     }
