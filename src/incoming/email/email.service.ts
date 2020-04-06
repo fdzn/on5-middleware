@@ -7,6 +7,7 @@ export class EmailService {
   constructor(private http: HttpService) {}
   async general(data) {
     try {
+      const host = process.env.ENDPOIN_ON5;
       let sendToON5 = new EmailON5();
       if (data.attachments.length > 0) {
         sendToON5.attachment = data.attachments.map(item => {
@@ -48,7 +49,7 @@ export class EmailService {
       // console.log("data", data);
       console.log("send to on5", post);
       this.http
-        .post("http://on5.infomedia.co.id/v1/incoming/email", sendToON5)
+        .post(`${host}/v1/incoming/email`, sendToON5)
         .subscribe(res => {
           console.log("http response", res.data);
         });
