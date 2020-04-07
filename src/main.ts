@@ -4,6 +4,7 @@ import {
   FastifyAdapter,
   NestFastifyApplication,
 } from '@nestjs/platform-fastify';
+import * as swStats from 'swagger-stats';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
@@ -27,6 +28,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api/application', app, document);
   app.useGlobalPipes(new ValidationPipe());
+  app.use(swStats.getMiddleware());
   await app.listen(parseInt(process.env.APP_PORT), '0.0.0.0');
 }
 bootstrap();
