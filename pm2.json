@@ -1,0 +1,9 @@
+{
+  "apps": [
+    {
+      "name": "on5-middleware",
+      "script": "npm",
+      "args": "run start:prod"
+    }
+  ]
+}

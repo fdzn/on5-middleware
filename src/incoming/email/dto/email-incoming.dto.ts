@@ -1,9 +1,24 @@
-import { IsNotEmpty, IsInt, IsOptional } from 'class-validator';
+import { IsNotEmpty, IsInt, IsOptional } from "class-validator";
+
+export class EmailAttachment {
+  content_id: string;
+  content_type: string;
+  content_disp: string;
+  file_name: string;
+  size: number;
+  path: object;
+}
 
 export class EmailON5 {
   @IsInt()
   @IsNotEmpty()
   channel_id: number;
+
+  @IsNotEmpty()
+  from: string;
+
+  @IsNotEmpty()
+  from_name: string;
 
   @IsNotEmpty()
   message_id: string;
@@ -15,16 +30,16 @@ export class EmailON5 {
   in_reply_to: string;
 
   @IsNotEmpty()
-  from: string;
+  from_email: string;
 
   @IsNotEmpty()
-  to: string;
+  to_email: string;
 
   @IsOptional()
-  cc: string;
+  cc_email: string;
 
   @IsOptional()
-  bcc: string;
+  bcc_email: string;
 
   @IsOptional()
   subject: string;
@@ -36,20 +51,8 @@ export class EmailON5 {
   message_html: string;
 
   @IsOptional()
-  attachment: string;
-}
-
-export class EmailHeaderON5 {
-  @IsNotEmpty()
-  from: string;
+  attachment: EmailAttachment[];
 
   @IsNotEmpty()
-  from_name: string;
-
-  @IsNotEmpty()
-  message_type: string;
-
-  @IsInt()
-  @IsNotEmpty()
-  channel_id: number;
+  account:string;
 }
