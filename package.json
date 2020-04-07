@@ -32,7 +32,8 @@
     "fastify-swagger": "^2.5.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.0",
-    "rxjs": "^6.5.5"
+    "rxjs": "^6.5.5",
+    "swagger-stats": "^0.95.17"
   },
   "devDependencies": {
     "@nestjs/cli": "^6.9.0",
