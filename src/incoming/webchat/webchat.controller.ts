@@ -7,14 +7,12 @@ export class WebchatController {
 
   @Post()
   async octopushChat(@Body() dataPost: any, @Res() res: Response) {
-    console.log('incoming webchat dimas', dataPost);
     const result = await this.webchatService.octopushChat(dataPost);
     res.status(result.statusCode).send(result);
   }
 
   @Post('bot')
   async bot(@Body() dataPost: any, @Res() res: Response) {
-    // console.log('incoming webchat BOT', dataPost);
     const result = await this.webchatService.bot(dataPost);
     res.status(result.statusCode).send(result);
   }

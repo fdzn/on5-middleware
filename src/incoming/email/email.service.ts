@@ -1,10 +1,10 @@
-import { Injectable, HttpService } from "@nestjs/common";
+import { Injectable, HttpService } from '@nestjs/common';
 
-import { EmailON5, EmailAttachment } from "./dto/email-incoming.dto";
+import { EmailON5, EmailAttachment } from './dto/email-incoming.dto';
 
 @Injectable()
 export class EmailService {
-  constructor(private http: HttpService) { }
+  constructor(private http: HttpService) {}
   async general(data) {
     try {
       const host = process.env.ENDPOIN_ON5;
@@ -19,7 +19,7 @@ export class EmailService {
           attachmentObj.size = item.size;
           attachmentObj.path = {
             url: item.url,
-            token: item.token
+            token: item.token,
           };
           return attachmentObj;
         });
@@ -45,7 +45,9 @@ export class EmailService {
       sendToON5.message_text = data.text;
 
       sendToON5.account = data.tenant_account[0].address;
-      const result = await this.http.post(`${host}/v1/incoming/email`, sendToON5).toPromise()
+      const result = await this.http
+        .post(`${host}/v1/incoming/email`, sendToON5)
+        .toPromise();
       return {
         isError: false,
         data: result.data,
@@ -55,7 +57,11 @@ export class EmailService {
       //ERROR HTTP
       if (e.response.status) {
         console.error(e.response.data);
-        return { isError: true, data: e.response.statusText, statusCode: e.response.status };
+        return {
+          isError: true,
+          data: e.response.statusText,
+          statusCode: e.response.status,
+        };
       } else {
         //ERROR GENERAL
         console.error(e);

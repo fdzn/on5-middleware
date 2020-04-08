@@ -1,5 +1,5 @@
 import { IsNotEmpty, IsInt, IsOptional } from 'class-validator';
-import { mCustomerON5 } from '../../customer.dto'
+import { mCustomerON5 } from '../../customer.dto';
 export class EmailAttachment {
   content_id: string;
   content_type: string;

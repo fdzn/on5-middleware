@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsInt, IsOptional } from "class-validator";
+import { IsNotEmpty, IsInt, IsOptional } from 'class-validator';
 
 export class EmailAttachment {
   content_id: string;
@@ -54,5 +54,5 @@ export class EmailON5 {
   attachment: EmailAttachment[];
 
   @IsNotEmpty()
-  account:string;
+  account: string;
 }
