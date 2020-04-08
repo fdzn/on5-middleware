@@ -1,19 +1,33 @@
-import { Controller, Post, Res, Body } from '@nestjs/common';
+import {
+  Controller,
+  Body,
+  Post,
+  Res,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { Response } from 'express';
-import { MinioService } from './minio.service';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { MinioNestService } from './minio.service';
+import { BufferedFile } from './dto/file.model';
+import { UploadPost, DownloadPost } from './dto/minio.dto';
 @Controller('minio')
 export class MinioController {
-  constructor(private readonly minioService: MinioService) {}
-
-  @Post('upload')
-  async upload(@Body() dataPost: any, @Res() res: Response) {
-    const result = await this.minioService.upload(dataPost);
+  constructor(private minioNestService: MinioNestService) {}
+  @Post('upload/single')
+  @UseInterceptors(FileInterceptor('file'))
+  async uploadSingle(
+    @UploadedFile() file: BufferedFile,
+    @Body() dataPost: UploadPost,
+    @Res() res: Response,
+  ) {
+    let result = await this.minioNestService.uploadSingle(file, dataPost);
     res.status(result.statusCode).send(result);
   }
 
   @Post('download')
-  async download(@Body() dataPost: any, @Res() res: Response) {
-    const result = await this.minioService.download(dataPost);
+  async download(@Body() dataPost: DownloadPost, @Res() res: Response) {
+    let result = await this.minioNestService.download(dataPost);
     res.status(result.statusCode).send(result);
   }
 }
