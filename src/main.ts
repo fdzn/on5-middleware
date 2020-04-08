@@ -1,19 +1,10 @@
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import {
-  FastifyAdapter,
-  NestFastifyApplication,
-} from '@nestjs/platform-fastify';
 import * as swStats from 'swagger-stats';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
-
 async function bootstrap() {
-  const app = await NestFactory.create<NestFastifyApplication>(
-    AppModule,
-    new FastifyAdapter({ bodyLimit: 10048576 }),
-  );
-
+  const app = await NestFactory.create(AppModule);
   const options = new DocumentBuilder()
     .setTitle('ON5 Middleware')
     .setDescription('This is api documentation for ON5 Middleware')
@@ -26,7 +17,7 @@ async function bootstrap() {
     )
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('api/application', app, document);
+  SwaggerModule.setup('documentation', app, document);
   app.useGlobalPipes(new ValidationPipe());
   app.use(swStats.getMiddleware());
   await app.listen(parseInt(process.env.APP_PORT), '0.0.0.0');
