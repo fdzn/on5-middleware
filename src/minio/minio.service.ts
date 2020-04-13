@@ -5,39 +5,44 @@ import * as crypto from 'crypto';
 import { UploadPost, DownloadPost, ResultDownload } from './dto/minio.dto';
 @Injectable()
 export class MinioNestService {
-  constructor(private readonly minio: MinioService) { }
+  constructor(private readonly minio: MinioService) {}
 
   private readonly expireTime = parseInt(process.env.MINIO_EXPIRE_TIME);
   private readonly minio_key = process.env.MINIO_KEY;
-  private readonly iv_key = "infomedianusanta"
+  private readonly iv_key = 'infomedianusanta';
   public get client() {
     return this.minio.client;
   }
 
   //MASTER FUNCTION
   encrypt(data: string) {
-    crypto.createCipheriv
-    let mykey = crypto.createCipheriv('aes-128-cbc', this.minio_key, this.iv_key);
+    crypto.createCipheriv;
+    let mykey = crypto.createCipheriv(
+      'aes-128-cbc',
+      this.minio_key,
+      this.iv_key,
+    );
     let mystr = mykey.update(data, 'utf8', 'hex');
     mystr += mykey.final('hex');
     return mystr;
   }
 
   decrypt(data: string) {
-    var mykey = crypto.createDecipheriv('aes-128-cbc', this.minio_key, this.iv_key);
+    var mykey = crypto.createDecipheriv(
+      'aes-128-cbc',
+      this.minio_key,
+      this.iv_key,
+    );
     var mystr = mykey.update(data, 'hex', 'utf8');
     mystr += mykey.final('utf8');
     return mystr;
   }
 
-  async uploadSingle(
-    file: BufferedFile,
-    data: UploadPost,
-  ) {
+  async uploadSingle(file: BufferedFile, data: UploadPost) {
     const baseBucket = data.folder;
 
-    const checkBucket = await this.client.bucketExists(baseBucket)
-    if(!checkBucket){
+    const checkBucket = await this.client.bucketExists(baseBucket);
+    if (!checkBucket) {
       await this.client.makeBucket(baseBucket, 'us-east-1');
     }
 
@@ -58,7 +63,7 @@ export class MinioNestService {
 
     let filename = hashedFileName + ext;
     const fileName: string = `${data.directory}/${filename}`;
-    console.log("fileName",fileName)
+    console.log('fileName', fileName);
     const fileBuffer = file.buffer;
     const fileSize = file.size;
     const token = this.encrypt(`${baseBucket}:${fileName}`);
@@ -87,13 +92,12 @@ export class MinioNestService {
   }
   //END MASTER FUNCTION
 
-
   async upload(files, data: UploadPost) {
     try {
-      let output = []
+      let output = [];
       for (let index = 0; index < files.length; index++) {
         const resultUpload = await this.uploadSingle(files[index], data);
-        output.push(resultUpload)
+        output.push(resultUpload);
       }
       // console.log(files);
       return {

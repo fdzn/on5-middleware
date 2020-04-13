@@ -33,7 +33,7 @@ export class WebchatService {
       };
     } catch (e) {
       //ERROR HTTP
-      if (e.response.status) {
+      if (e.response) {
         console.error(e.response.data);
         return {
           isError: true,
@@ -111,7 +111,7 @@ export class WebchatService {
       };
     } catch (e) {
       //ERROR HTTP
-      if (e.response.status) {
+      if (e.response) {
         console.error(e.response.data);
         return {
           isError: true,

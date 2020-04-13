@@ -6,6 +6,7 @@ export class InstagramController {
   constructor(private readonly instagramService: InstagramService) {}
   @Post('webhook')
   async webhook(@Body() dataPost: any, @Res() res: Response) {
+    console.log('Instagram', dataPost);
     const result = await this.instagramService.webhook(dataPost);
     res.status(result.statusCode).send(result);
   }

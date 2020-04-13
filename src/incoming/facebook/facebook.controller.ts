@@ -7,6 +7,7 @@ export class FacebookController {
 
   @Post('webhook')
   async webhook(@Body() dataPost: any, @Res() res: Response) {
+    console.log('Facebook', dataPost);
     const result = await this.facebookService.webhook(dataPost);
     res.status(result.statusCode).send(result);
   }

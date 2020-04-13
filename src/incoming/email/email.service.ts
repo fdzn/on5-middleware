@@ -55,7 +55,7 @@ export class EmailService {
       };
     } catch (e) {
       //ERROR HTTP
-      if (e.response.status) {
+      if (e.response) {
         console.error(e.response.data);
         return {
           isError: true,
